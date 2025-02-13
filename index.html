@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruna Flores | Consultoria em RH</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff; /* Corrigido */
+            --text-gray: #666666;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transform: translateY(-100%);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            overflow: hidden;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            opacity: 1; /* Alterado para 1 */
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            opacity: 1; /* Alterado para 1 */
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 1; /* Alterado para 1 */
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .about {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            opacity: 1; /* Alterado para 1 */
+            color: var(--text-dark);
+        }
+
+        .about-image {
+            position: relative;
+            opacity: 1; /* Alterado para 1 */
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .services {
+            padding: 8rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(0); /* Alterado para 0 */
+            opacity: 1; /* Alterado para 1 */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .service-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .testimonials {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .testimonial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            overflow-x: hidden;
+        }
+
+        .testimonial-card {
+            min-width: 300px;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 1; /* Alterado para 1 */
+            color: var(--text-dark);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .contact {
+            padding: 8rem 2rem;
+            background: var(--primary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .contact-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+        }
+
+        .contact-info {
+            opacity: 1; /* Alterado para 1 */
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .contact-text {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-text:hover {
+            color: var(--secondary);
+        }
+
+        .footer {
+            padding: 2rem;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">Bruna Flores</a>
+            <div class="nav-links">
+                <a href="#about">Sobre</a>
+                <a href="#services">Serviços</a>
+                <a href="#testimonials">Depoimentos</a>
+                <a href="#contact">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Bruna Flores</h1>
+            <p class="hero-subtitle">Transformando Pessoas e Organizações</p>
+            <a href="#contact" class="cta-button">Entre em Contato</a>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">Sobre Nós</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Com anos de experiência em Recursos Humanos, oferecemos soluções personalizadas para empresas que
+                    buscam excelência em gestão de pessoas. Nossa missão é transformar organizações através do
+                    desenvolvimento humano.</p>
+                <br>
+                <p>Acreditamos que o sucesso de uma empresa está diretamente ligado ao desenvolvimento e bem-estar de
+                    seus colaboradores. Por isso, trabalhamos com metodologias inovadoras e personalizadas para cada
+                    cliente.</p>
+            </div>
+            <div class="about-image">
+                <img src="/api/placeholder/600/400" alt="Sobre Bruna Flores">
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">Nossos Serviços</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fas fa-users service-icon"></i>
+                <h3 class="service-title">Recrutamento e Seleção</h3>
+                <p>Processo completo de identificação e seleção dos melhores talentos para sua empresa, utilizando
+                    metodologias modernas e eficazes.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-chart-line service-icon"></i>
+                <h3 class="service-title">Avaliação de Desempenho</h3>
+                <p>Implementação de sistemas de avaliação que impulsionam o desenvolvimento profissional e os resultados
+                    da empresa.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-road service-icon"></i>
+                <h3 class="service-title">PDI</h3>
+                <p>Desenvolvimento de planos individuais que maximizam o potencial de cada colaborador e alinham
+                    objetivos pessoais e organizacionais.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-building service-icon"></i>
+                <h3 class="service-title">Implantação de RH</h3>
+                <p>Estruturação completa do setor de Recursos Humanos, desde processos básicos até estratégias avançadas
+                    de gestão.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-handshake service-icon"></i>
+                <h3 class="service-title">Cultura Organizacional</h3>
+                <p>Desenvolvimento e implementação de cultura organizacional que promove engajamento e resultados
+                    sustentáveis.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-lightbulb service-icon"></i>
+                <h3 class="service-title">Consultoria Especializada</h3>
+                <p>Suporte estratégico para desafios específicos em gestão de pessoas e desenvolvimento organizacional.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">Depoimentos</h2>
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"A consultoria da Bruna transformou completamente nossa gestão de pessoas.
+                    Os resultados foram impressionantes."</p>
+                <p class="testimonial-author">Maria Silva - CEO Tech Solutions</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Profissionalismo e dedicação excepcionais. Nossa empresa evoluiu muito após
+                    a implementação das metodologias propostas."</p>
+                <p class="testimonial-author">João Santos - Diretor RH</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"O trabalho da Bruna foi fundamental para a evolução da nossa cultura
+                    organizacional."</p>
+                <p class="testimonial-author">Ana Costa - Gerente de Pessoas</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title" style="color: white;">Entre em Contato</h2>
+        <div class="contact-info">
+            <h3>Informações de Contato</h3>
+            <div class="contact-method">
+                <i class="fas fa-phone contact-icon"></i>
+                <a href="tel:+5548991178954" class="contact-text">(48) 99117-8954</a>
+            </div>
+            <div class="contact-method">
+                <i class="fas fa-envelope contact-icon"></i>
+                <a href="mailto:contato@brunaflores.com" class="contact-text">contato@brunaflores.com</a>
+            </div>
+            <div class="contact-method">
+                <i class="fas fa-map-marker-alt contact-icon"></i>
+                <span class="contact-text">Atendimento em todo Brasil</span>
+            </div>
+        </div>
+        <div class="contact-info">
+            <h3>Horário de Atendimento</h3>
+            <p>Segunda a Sexta: 9h às 18h</p>
+            <br>
+            <p>Agende uma consulta para descobrir como podemos transformar sua organização.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Bruna Flores - Consultoria em RH. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Função para criar partículas
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particles.appendChild(particle);
+
+                gsap.to(particle, {
+                    x: 'random(-100, 100)',
+                    y: 'random(-100, 100)',
+                    duration: 'random(3, 5)',
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'none'
+                });
+            }
+        }
+
+        // Animações iniciais
+        window.addEventListener('load', () => {
+            // Navbar animation
+            gsap.to('.navbar', {
+                y: 0,
+                duration: 1,
+                ease: 'power4.out'
+            });
+
+            // Hero animations
+            gsap.to('.hero-title', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                ease: 'power4.out'
+            });
+
+            gsap.to('.hero-subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                delay: 0.5,
+                ease: 'power4.out'
+            });
+
+            gsap.to('.cta-button', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                delay: 1,
+                ease: 'power4.out'
+            });
+
+            createParticles();
+        });
+
+        // Scroll animations
+        gsap.utils.toArray('.service-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                delay: i * 0.2,
+                ease: 'power3.out'
+            });
+        });
+
+        // About section animation
+        gsap.from('.about-text', {
+            scrollTrigger: {
+                trigger: '.about-text',
+                start: 'top bottom-=100'
+            },
+            x: -100,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.about-image', {
+            scrollTrigger: {
+                trigger: '.about-image',
+                start: 'top bottom-=100'
+            },
+            x: 100,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        // Testimonials animation
+        gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100'
+                },
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                delay: i * 0.3,
+                ease: 'power3.out'
+            });
+        });
+
+        // Contact section animation
+        gsap.utils.toArray('.contact-info').forEach((info, i) => {
+            gsap.from(info, {
+                scrollTrigger: {
+                    trigger: info,
+                    start: 'top bottom-=100'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: i * 0.3,
+                ease: 'power3.out'
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Navbar color change on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
